@@ -1,0 +1,43 @@
+// 应用配置
+export const config = {
+  header: {
+    title: "AI Coding Plan 对比",
+    updateDate: "更新日期2026.3.18",
+    subtitle: "七大平台 智谱、Kimi、MiniMax、阿里・百炼、字节・方舟、百度・千帆、腾讯・混元，全面对比",
+    models: "支持Qwen 3.5，Doubao Seed 2.0，MiniMax M2.5、GLM-5、Kimi-k2.5等模型"
+  },
+  notice: {
+    text: "⚠️本页面数据仅供参考，价格及权益最终以平台官方公布为准"
+  },
+  table: {
+    columns: {
+      vendor: "平台",
+      plan: "套餐",
+      action: "跳转链接",
+      firstMonthPrice: "首月价格",
+      monthlyPrice: "连续包月",
+      quarterlyPrice: "连续包季",
+      yearlyPrice: "连续包年",
+      models: "支持模型",
+      hourlyRequests: "5小时请求数",
+      monthlyRequests: "每月总请求数",
+      benefits: "其他权益",
+      note: "备注"
+    }
+  },
+  filters: {
+    vendor: "平台",
+    model: "模型",
+    firstMonthPrice: "首月价格",
+    monthlyPrice: "包月价格",
+    quarterlyPrice: "包季价格",
+    yearlyPrice: "包年价格",
+    reset: "重置筛选",
+    stats: "显示 {showing} / {total} 个套餐"
+  },
+  priceFilter: {
+    title: "价格区间 (元)",
+    reset: "重置",
+    apply: "确定"
+  }
+}
