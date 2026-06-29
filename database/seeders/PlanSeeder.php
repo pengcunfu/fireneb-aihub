@@ -1,0 +1,237 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\AiModel;
+use App\Models\Benefit;
+use App\Models\Plan;
+use App\Models\Vendor;
+use Illuminate\Database\Seeder;
+
+class PlanSeeder extends Seeder
+{
+    public function run()
+    {
+        $plans = $this->plansData();
+
+        foreach ($plans as $index => $data) {
+            $vendor = Vendor::where('name', $data['vendor'])->firstOrFail();
+
+            $plan = Plan::updateOrCreate(
+                [
+                    'vendor_id' => $vendor->id,
+                    'name' => $data['plan'],
+                ],
+                [
+                    'action_url' => $data['action'],
+                    'first_month_price' => $this->nullablePrice($data['firstMonthPrice']),
+                    'monthly_price' => $data['monthlyPrice'],
+                    'quarterly_price' => $this->nullablePrice($data['quarterlyPrice']),
+                    'yearly_price' => $this->nullablePrice($data['yearlyPrice']),
+                    'hourly_requests' => (string) $data['hourlyRequests'],
+                    'monthly_requests' => (string) $data['monthlyRequests'],
+                    'note' => $data['note'],
+                    'sort_order' => $index,
+                    'is_active' => true,
+                ]
+            );
+
+            $modelIds = collect($data['models'])->map(function ($name) {
+                return AiModel::firstOrCreate(['name' => $name])->id;
+            });
+
+            $benefitIds = collect($data['benefits'])->map(function ($name) {
+                return Benefit::firstOrCreate(['name' => $name])->id;
+            });
+
+            $plan->aiModels()->sync($modelIds);
+            $plan->benefits()->sync($benefitIds);
+        }
+    }
+
+    private function nullablePrice($value): ?float
+    {
+        if ($value === '-' || $value === null || $value === '') {
+            return null;
+        }
+
+        return (float) $value;
+    }
+
+    private function plansData(): array
+    {
+        return [
+            [
+                'vendor' => '字节·方舟', 'plan' => 'Lite',
+                'action' => 'https://volcengine.com/L/sQLpJ0JukyE/',
+                'firstMonthPrice' => 8.91, 'monthlyPrice' => 40, 'quarterlyPrice' => '-', 'yearlyPrice' => '-',
+                'models' => ['Doubao-Seed-2.0', 'MiniMax-M2.5', 'Kimi-K2.5', 'GLM-4.7', 'DeepSeek-V3.2'],
+                'hourlyRequests' => 1200, 'monthlyRequests' => 18000,
+                'benefits' => ['ArkClaw 7天体验'], 'note' => '',
+            ],
+            [
+                'vendor' => '字节·方舟', 'plan' => 'Pro',
+                'action' => 'https://volcengine.com/L/sQLpJ0JukyE/',
+                'firstMonthPrice' => 44.91, 'monthlyPrice' => 200, 'quarterlyPrice' => '-', 'yearlyPrice' => '-',
+                'models' => ['Doubao-Seed-2.0', 'MiniMax-M2.5', 'Kimi-K2.5', 'GLM-4.7', 'DeepSeek-V3.2'],
+                'hourlyRequests' => 6000, 'monthlyRequests' => 90000,
+                'benefits' => ['免费ArkClaw'], 'note' => '',
+            ],
+            [
+                'vendor' => 'MiniMax', 'plan' => 'Starter',
+                'action' => 'https://platform.minimaxi.com/subscribe/token-plan?code=89m4O8z305&source=link',
+                'firstMonthPrice' => '-', 'monthlyPrice' => 29, 'quarterlyPrice' => '-', 'yearlyPrice' => 290,
+                'models' => ['MiniMax-M2.7', 'MiniMax-M2.5'],
+                'hourlyRequests' => 600, 'monthlyRequests' => 9000,
+                'benefits' => [], 'note' => '约50TPS',
+            ],
+            [
+                'vendor' => 'MiniMax', 'plan' => 'Plus',
+                'action' => 'https://platform.minimaxi.com/subscribe/token-plan?code=89m4O8z305&source=link',
+                'firstMonthPrice' => '-', 'monthlyPrice' => 49, 'quarterlyPrice' => '-', 'yearlyPrice' => 490,
+                'models' => ['MiniMax-M2.7', 'MiniMax-M2.5'],
+                'hourlyRequests' => 1500, 'monthlyRequests' => 22500,
+                'benefits' => [], 'note' => '约50TPS',
+            ],
+            [
+                'vendor' => 'MiniMax', 'plan' => 'Max',
+                'action' => 'https://platform.minimaxi.com/subscribe/token-plan?code=89m4O8z305&source=link',
+                'firstMonthPrice' => '-', 'monthlyPrice' => 119, 'quarterlyPrice' => '-', 'yearlyPrice' => 1190,
+                'models' => ['MiniMax-M2.7', 'MiniMax-M2.5'],
+                'hourlyRequests' => 4500, 'monthlyRequests' => 67500,
+                'benefits' => [], 'note' => '约50TPS',
+            ],
+            [
+                'vendor' => 'MiniMax', 'plan' => 'Plus-极速版',
+                'action' => 'https://platform.minimaxi.com/subscribe/token-plan?code=89m4O8z305&source=link',
+                'firstMonthPrice' => '-', 'monthlyPrice' => 98, 'quarterlyPrice' => '-', 'yearlyPrice' => 980,
+                'models' => ['MiniMax-M2.7', 'MiniMax-M2.5'],
+                'hourlyRequests' => 1500, 'monthlyRequests' => 22500,
+                'benefits' => [], 'note' => '约100TPS',
+            ],
+            [
+                'vendor' => 'MiniMax', 'plan' => 'Max-极速版',
+                'action' => 'https://platform.minimaxi.com/subscribe/token-plan?code=89m4O8z305&source=link',
+                'firstMonthPrice' => '-', 'monthlyPrice' => 199, 'quarterlyPrice' => '-', 'yearlyPrice' => 1990,
+                'models' => ['MiniMax-M2.7', 'MiniMax-M2.5'],
+                'hourlyRequests' => 4500, 'monthlyRequests' => 67500,
+                'benefits' => [], 'note' => '约100TPS',
+            ],
+            [
+                'vendor' => 'MiniMax', 'plan' => 'Ultra-极速版',
+                'action' => 'https://platform.minimaxi.com/subscribe/token-plan?code=89m4O8z305&source=link',
+                'firstMonthPrice' => '-', 'monthlyPrice' => 899, 'quarterlyPrice' => '-', 'yearlyPrice' => 8990,
+                'models' => ['MiniMax-M2.7', 'MiniMax-M2.5'],
+                'hourlyRequests' => 30000, 'monthlyRequests' => 450000,
+                'benefits' => [], 'note' => '约100TPS',
+            ],
+            [
+                'vendor' => '阿里·百炼', 'plan' => 'Lite',
+                'action' => 'https://www.aliyun.com/benefit/scene/codingplan',
+                'firstMonthPrice' => '-', 'monthlyPrice' => 40, 'quarterlyPrice' => '-', 'yearlyPrice' => '-',
+                'models' => ['Qwen-3.5', 'MiniMax-M2.5', 'GLM-5', 'Kimi-K2.5', 'GLM-4.7'],
+                'hourlyRequests' => 1200, 'monthlyRequests' => 18000,
+                'benefits' => [], 'note' => '',
+            ],
+            [
+                'vendor' => '阿里·百炼', 'plan' => 'Pro',
+                'action' => 'https://www.aliyun.com/benefit/scene/codingplan',
+                'firstMonthPrice' => '-', 'monthlyPrice' => 200, 'quarterlyPrice' => '-', 'yearlyPrice' => '-',
+                'models' => ['Qwen-3.5', 'MiniMax-M2.5', 'GLM-5', 'Kimi-K2.5', 'GLM-4.7'],
+                'hourlyRequests' => 6000, 'monthlyRequests' => 90000,
+                'benefits' => [], 'note' => '',
+            ],
+            [
+                'vendor' => '腾讯·混元', 'plan' => 'Lite',
+                'action' => 'https://cloud.tencent.com/act/pro/codingplan#buy',
+                'firstMonthPrice' => 7.9, 'monthlyPrice' => 40, 'quarterlyPrice' => '-', 'yearlyPrice' => '-',
+                'models' => ['HY-2.0', 'HY-T1', 'GLM-5', 'Kimi-K2.5', 'MiniMax-M2.5'],
+                'hourlyRequests' => 1200, 'monthlyRequests' => 18000,
+                'benefits' => [], 'note' => '',
+            ],
+            [
+                'vendor' => '腾讯·混元', 'plan' => 'Pro',
+                'action' => 'https://cloud.tencent.com/act/pro/codingplan#buy',
+                'firstMonthPrice' => 39.9, 'monthlyPrice' => 200, 'quarterlyPrice' => '-', 'yearlyPrice' => '-',
+                'models' => ['HY-2.0', 'HY-T1', 'GLM-5', 'Kimi-K2.5', 'MiniMax-M2.5'],
+                'hourlyRequests' => 6000, 'monthlyRequests' => 90000,
+                'benefits' => [], 'note' => '',
+            ],
+            [
+                'vendor' => '百度·千帆', 'plan' => 'Lite',
+                'action' => 'https://cloud.baidu.com/product/codingplan.html',
+                'firstMonthPrice' => '-', 'monthlyPrice' => 40, 'quarterlyPrice' => '-', 'yearlyPrice' => '-',
+                'models' => ['GLM-5', 'Kimi-K2.5', 'MiniMax-M2.5', 'DeepSeek-V3.2'],
+                'hourlyRequests' => 1200, 'monthlyRequests' => 18000,
+                'benefits' => [], 'note' => '',
+            ],
+            [
+                'vendor' => '百度·千帆', 'plan' => 'Pro',
+                'action' => 'https://cloud.baidu.com/product/codingplan.html',
+                'firstMonthPrice' => '-', 'monthlyPrice' => 200, 'quarterlyPrice' => '-', 'yearlyPrice' => '-',
+                'models' => ['GLM-5', 'Kimi-K2.5', 'MiniMax-M2.5', 'DeepSeek-V3.2'],
+                'hourlyRequests' => 6000, 'monthlyRequests' => 90000,
+                'benefits' => [], 'note' => '',
+            ],
+            [
+                'vendor' => 'Kimi', 'plan' => 'Andante',
+                'action' => 'https://www.kimi.com/code',
+                'firstMonthPrice' => '-', 'monthlyPrice' => 49, 'quarterlyPrice' => '-', 'yearlyPrice' => 468,
+                'models' => ['Kimi-K2.5', 'Kimi-K2'],
+                'hourlyRequests' => '未公开', 'monthlyRequests' => '未公开',
+                'benefits' => [], 'note' => 'Agent 4 倍速',
+            ],
+            [
+                'vendor' => 'Kimi', 'plan' => 'Moderato',
+                'action' => 'https://www.kimi.com/code',
+                'firstMonthPrice' => '-', 'monthlyPrice' => 99, 'quarterlyPrice' => '-', 'yearlyPrice' => 948,
+                'models' => ['Kimi-K2.5', 'Kimi-K2'],
+                'hourlyRequests' => '未公开', 'monthlyRequests' => '未公开',
+                'benefits' => [], 'note' => '4 倍额度, Agent 多任务并行',
+            ],
+            [
+                'vendor' => 'Kimi', 'plan' => 'Allegretto',
+                'action' => 'https://www.kimi.com/code',
+                'firstMonthPrice' => '-', 'monthlyPrice' => 199, 'quarterlyPrice' => '-', 'yearlyPrice' => 1908,
+                'models' => ['Kimi-K2.5', 'Kimi-K2'],
+                'hourlyRequests' => '未公开', 'monthlyRequests' => '未公开',
+                'benefits' => ['免费Kimi-Claw'], 'note' => '20 倍额度',
+            ],
+            [
+                'vendor' => 'Kimi', 'plan' => 'Allegro',
+                'action' => 'https://www.kimi.com/code',
+                'firstMonthPrice' => '-', 'monthlyPrice' => 699, 'quarterlyPrice' => '-', 'yearlyPrice' => 6708,
+                'models' => ['Kimi-K2.5', 'Kimi-K2'],
+                'hourlyRequests' => '未公开', 'monthlyRequests' => '未公开',
+                'benefits' => ['免费Kimi-Claw'], 'note' => '60 倍额度',
+            ],
+            [
+                'vendor' => '智谱AI', 'plan' => 'Lite',
+                'action' => 'https://www.bigmodel.cn/glm-coding?ic=QHIO7TWK3Z',
+                'firstMonthPrice' => '-', 'monthlyPrice' => 49, 'quarterlyPrice' => 132, 'yearlyPrice' => 411,
+                'models' => ['GLM-4.7'],
+                'hourlyRequests' => '1200', 'monthlyRequests' => '24000',
+                'benefits' => ['免费MCP次数'],
+                'note' => '1. 3倍Claude Pro用量 2. 官方为prompt计数，这里按1 prompt≈15次调用换算 3. 官方只有周限量无月限量，这里按照1月=4周计算',
+            ],
+            [
+                'vendor' => '智谱AI', 'plan' => 'Pro',
+                'action' => 'https://www.bigmodel.cn/glm-coding?ic=QHIO7TWK3Z',
+                'firstMonthPrice' => '-', 'monthlyPrice' => 149, 'quarterlyPrice' => 402, 'yearlyPrice' => 1251,
+                'models' => ['GLM-5', 'GLM-4.7'],
+                'hourlyRequests' => '6000', 'monthlyRequests' => '120000',
+                'benefits' => ['免费MCP次数'],
+                'note' => '1. 5倍Lite用量 2. 官方为prompt计数，这里按1 prompt≈15次调用换算 3. 官方只有周限量无月限量，这里按照1月=4周计算',
+            ],
+            [
+                'vendor' => '智谱AI', 'plan' => 'Max',
+                'action' => 'https://www.bigmodel.cn/glm-coding?ic=QHIO7TWK3Z',
+                'firstMonthPrice' => '-', 'monthlyPrice' => 469, 'quarterlyPrice' => 1266, 'yearlyPrice' => 3939,
+                'models' => ['GLM-5', 'GLM-4.7'],
+                'hourlyRequests' => '24000', 'monthlyRequests' => '600000',
+                'benefits' => ['免费MCP次数'],
+                'note' => '1. 20倍Lite用量 2. 官方为prompt计数，这里按1 prompt≈15次调用换算 3. 官方只有周限量无月限量，这里按照1月=4周计算',
+            ],
+        ];
+    }
+}

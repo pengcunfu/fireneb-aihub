@@ -1,0 +1,124 @@
+.app-header {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+}
+
+.compare-table {
+    min-width: 1200px;
+}
+
+.compare-table th.sortable {
+    cursor: pointer;
+    user-select: none;
+}
+
+.compare-table th.sortable::after {
+    content: '⇅';
+    margin-left: 6px;
+    opacity: 0.35;
+    font-size: 11px;
+}
+
+.compare-table th.sort-asc::after {
+    content: '↑';
+    opacity: 1;
+    color: #6366f1;
+}
+
+.compare-table th.sort-desc::after {
+    content: '↓';
+    opacity: 1;
+    color: #6366f1;
+}
+
+.sticky-col {
+    position: sticky;
+    z-index: 2;
+    background: #fff;
+}
+
+.sticky-col-1 {
+    left: 0;
+}
+
+.sticky-col-2 {
+    left: 116px;
+}
+
+.compare-table thead .sticky-col {
+    background: #f8f9fa;
+    z-index: 3;
+}
+
+.price-green {
+    color: #00a855;
+    font-weight: 600;
+}
+
+.price-primary {
+    color: #6366f1;
+    font-weight: 600;
+}
+
+.price-original {
+    text-decoration: line-through;
+    color: #94a3b8;
+    font-size: 12px;
+    margin-left: 4px;
+}
+
+.model-tag {
+    display: inline-block;
+    background: #f1f5f9;
+    color: #64748b;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    margin: 0 4px 4px 0;
+    border: 1px solid #e2e8f0;
+}
+
+.benefit-tag {
+    display: inline-block;
+    background: rgba(249, 115, 22, 0.08);
+    color: #f97316;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    margin: 0 4px 4px 0;
+    border: 1px solid rgba(249, 115, 22, 0.15);
+}
+
+.plan-card {
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.plan-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-color: #6366f1 !important;
+}
+
+.platform-badge {
+    background: linear-gradient(135deg, #6366f1, #8b5cf6);
+}
+
+.action-btn {
+    background: #0099cc;
+    border-color: #0099cc;
+}
+
+.action-btn:hover {
+    background: #0088b8;
+    border-color: #0088b8;
+}
+
+.unit {
+    color: #64748b;
+    font-size: 11px;
+}
+
+@media (max-width: 768px) {
+    .sticky-col-2 {
+        left: 96px;
+    }
+}
