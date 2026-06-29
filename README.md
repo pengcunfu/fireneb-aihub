@@ -1,94 +1,55 @@
-# AI Coding Plan 对比工具
+# AIHub - AI 导航 + Coding Plan 对比
 
-基于 **Laravel 8** + **MySQL** + **Bootstrap 5** 的 AI Coding Plan 套餐对比平台。
+基于 **Laravel 8** + **MySQL** + **Bootstrap 5** 的 AI 工具导航与 Coding Plan 套餐对比平台。
 
-更新日期：2026.3.18
+## 功能模块
 
-## 简介
-
-对比国内主流 AI 平台的 Coding Plan 套餐，包括智谱 AI、Kimi、MiniMax、字节·方舟、阿里·百炼、百度·千帆、腾讯·混元等厂商的多档套餐信息。
-
-支持模型：Qwen-3.5、Doubao-Seed-2.0、MiniMax-M2.7、MiniMax-M2.5、GLM-5、Kimi-K2.5 等
-
-## 环境要求
-
-- PHP >= 8.0
-- MySQL >= 5.7
-- Composer
+| 模块 | 路由 | 状态 |
+|------|------|------|
+| AI 导航 | `/` | ✅ 已上线 |
+| Coding Plan 对比 | `/coding-plan` | ✅ 已上线 |
+| AI 论坛 | - | 🔜 规划中 |
+| 社区 | - | 🔜 规划中 |
+| AI 工具 | - | 🔜 规划中 |
 
 ## 快速开始
 
-### 1. 安装 PHP 依赖
-
 ```bash
 composer install
-```
-
-### 2. 配置环境
-
-复制并编辑 `.env` 文件：
-
-```bash
 cp .env.example .env
 php artisan key:generate
+php artisan migrate --seed
+php artisan serve
 ```
 
-MySQL 配置示例：
+MySQL 配置（`.env`）：
 
 ```env
-DB_CONNECTION=mysql
-DB_HOST=127.0.0.1
-DB_PORT=3306
 DB_DATABASE=aihub
 DB_USERNAME=root
 DB_PASSWORD=your_password
 ```
 
-先在 MySQL 中创建数据库：
-
-```sql
-CREATE DATABASE aihub CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-```
-
-### 3. 迁移并填充数据
-
-```bash
-php artisan migrate --seed
-```
-
-### 4. 启动服务
-
-```bash
-php artisan serve
-```
-
-或运行 `run.bat`，访问 http://127.0.0.1:8000
-
 ## 项目结构
 
 ```
 app/
-├── Http/Controllers/PlanCompareController.php  # 对比页控制器
-├── Models/                                     # Eloquent 模型
-└── Services/PlanProcessor.php                  # 价格归一化逻辑
-config/aihub.php                                # 页面文案配置
-database/
-├── migrations/                                 # 数据库迁移
-└── seeders/                                    # 套餐种子数据
-public/
-├── css/app.css                                 # 自定义样式
-└── js/compare.js                               # 筛选/排序交互
-resources/views/compare/                        # Bootstrap Blade 视图
+├── Http/Controllers/
+│   ├── HomeController.php          # AI 导航首页
+│   └── PlanCompareController.php   # Coding Plan 对比
+├── Models/
+│   ├── NavCategory.php / NavLink.php   # 导航数据
+│   └── Plan.php / Vendor.php ...       # 套餐数据
+config/aihub.php                    # 站点与模块配置
+database/seeders/                   # 导航 + 套餐种子数据
+resources/views/
+├── home/                           # AI 导航页
+├── compare/                        # Coding Plan 页
+└── partials/navbar.blade.php       # 全站导航
+public/js/nav.js                    # 导航筛选交互
+public/js/compare.js                # 套餐对比交互
 ```
-
-## 功能
-
-- 表格 / 卡片双视图切换
-- 平台、模型多选筛选
-- 首月 / 包月 / 包季 / 包年价格区间筛选
-- 列排序
-- 套餐数据存储于 MySQL，可通过 Seeder 或后台扩展维护
 
 ## 说明
 
-本页面数据仅供参考，价格及权益最终以平台官方公布为准。
+收录链接与套餐数据仅供参考，请以各平台官方信息为准。

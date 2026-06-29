@@ -1,15 +1,32 @@
 <?php
 
 return [
+    'site' => [
+        'name' => 'AIHub',
+        'tagline' => '发现优质 AI 工具，对比 Coding Plan 套餐',
+        'description' => '聚合国内外 AI 对话、编程、图像、视频、办公工具导航，并提供 Coding Plan 套餐对比。',
+        'updateDate' => '2026.3.18',
+    ],
+
+    'nav' => [
+        ['label' => 'AI 导航', 'route' => 'home', 'active' => true],
+        ['label' => 'Coding Plan', 'route' => 'compare.index', 'active' => true],
+        ['label' => 'AI 论坛', 'route' => null, 'active' => false, 'badge' => '即将上线'],
+        ['label' => '社区', 'route' => null, 'active' => false, 'badge' => '即将上线'],
+        ['label' => 'AI 工具', 'route' => null, 'active' => false, 'badge' => '即将上线'],
+    ],
+
     'header' => [
         'title' => 'AI Coding Plan 对比',
         'updateDate' => '更新日期2026.3.18',
         'subtitle' => '七大平台 智谱、Kimi、MiniMax、阿里・百炼、字节・方舟、百度・千帆、腾讯・混元，全面对比',
         'models' => '支持Qwen 3.5，Doubao Seed 2.0，MiniMax M2.5、GLM-5、Kimi-k2.5等模型',
     ],
+
     'notice' => [
         'text' => '⚠️本页面数据仅供参考，价格及权益最终以平台官方公布为准',
     ],
+
     'table' => [
         'columns' => [
             'vendor' => '平台',
@@ -26,6 +43,7 @@ return [
             'note' => '备注',
         ],
     ],
+
     'filters' => [
         'vendor' => '平台',
         'model' => '模型',
@@ -36,6 +54,7 @@ return [
         'reset' => '重置筛选',
         'stats' => '显示 {showing} / {total} 个套餐',
     ],
+
     'priceFilter' => [
         'title' => '价格区间 (元)',
         'reset' => '重置',
